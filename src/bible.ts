@@ -14,25 +14,25 @@ export async function sendBible() {
 
     let i = 0;
     do {
-      const chapter = await getChapter(config.bible.volume, config.bible.chapter);
+      const chapter = await getChapter(config.volume, config.chapter);
       if (chapter) {
-        console.log(`sending volume: ${config.bible.volume}, chapter: ${config.bible.chapter}`);
+        console.log(`sending volume: ${config.volume}, chapter: ${config.chapter}`);
         await room.say(chapter);
-        config.bible.chapter++;
+        config.chapter++;
         i++;
         await new Promise((r) => setTimeout(r, 2000));
       } else {
-        config.bible.volume++;
-        config.bible.chapter = 1;
+        config.volume++;
+        config.chapter = 1;
       }
-    } while (i < config.bible.step);
+    } while (i < config.step);
 
     writeConfig();
 }
 
 export async function checkRoom(bot: Wechaty) {
   if (!room) {
-    const searchRegex = new RegExp(config.bible.room);
+    const searchRegex = new RegExp(config.room);
     console.log("search for:", searchRegex);
     room = await bot.Room.find({ topic: searchRegex });
 
@@ -44,7 +44,7 @@ export async function checkRoom(bot: Wechaty) {
     }
     room?.announce();
     
-    console.log(`Current volume: ${config.bible.volume}, chapter: ${config.bible.chapter}`);
+    console.log(`Current volume: ${config.volume}, chapter: ${config.chapter}`);
   }
 }
 
