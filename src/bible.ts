@@ -1,6 +1,6 @@
 import sqlite from 'sqlite';
 import { config, writeConfig } from './config';
-const cc: any = require('chinese-conv');
+import { tify } from 'chinese-conv';
 import { Wechaty, Room } from 'wechaty';
 
 let room: Room|null = null;
@@ -56,7 +56,7 @@ export async function getChapter(volume: number, chapter: number) {
 
   if (lections.length > 0) {
     const string = title + lections.map((l) => l.Lection.trim().replace('\u3000', '')).join();
-    return cc.tify(string);
+    return tify(string);
   }
   return null;
 }
